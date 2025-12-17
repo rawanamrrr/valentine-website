@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/lib/translations';
+import { MessageCircle } from 'lucide-react';
 
 export default function HandwrittenMessage() {
   const t = useTranslation();
@@ -43,25 +44,16 @@ export default function HandwrittenMessage() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Set canvas size
-    const setCanvasSize = (isInitial = false) => {
-      const container = canvas.parentElement;
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const width = Math.min(1000, rect.width * 0.95); // Increased max width
-        // Only update canvas dimensions if they actually changed significantly
-        if (Math.abs(canvas.width - width) > 5 || canvas.height !== 600) {
-          canvas.width = width;
-          canvas.height = 600; // Increased height for larger writing area
-        }
-        canvas.style.border = '2px solid #e5e7eb';
-        canvas.style.borderRadius = '0.5rem';
-        // Only fill background on initial setup, not on resize
-        if (isInitial) {
-          canvas.style.backgroundColor = 'white';
-        }
-      }
-    };
+    const container = canvas.parentElement;
+    if (container) {
+      const rect = container.getBoundingClientRect();
+      const width = Math.min(1000, rect.width * 0.95); // Increased max width
+      canvas.width = width;
+      canvas.height = 600; // Increased height for larger writing area
+      canvas.style.border = '2px solid #e5e7eb';
+      canvas.style.borderRadius = '0.5rem';
+      canvas.style.backgroundColor = 'white';
+    }
 
     const context = canvas.getContext('2d');
     if (!context) return;
@@ -71,42 +63,10 @@ export default function HandwrittenMessage() {
     context.lineCap = 'round';
     context.lineJoin = 'round';
     context.strokeStyle = currentColor;
-    // Only fill background on initial setup
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     setCtx(context);
-    setCanvasSize(true); // Initial setup
-
-    const handleResize = () => setCanvasSize(false); // Resize without clearing
-    window.addEventListener('resize', handleResize);
-
-    // Debounced scroll handler to prevent excessive canvas operations
-    let scrollTimeout: NodeJS.Timeout;
-    const handleScroll = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        // Check if canvas size needs adjustment after scroll
-        const container = canvas.parentElement;
-        if (container) {
-          const rect = container.getBoundingClientRect();
-          const currentWidth = canvas.width;
-          const newWidth = Math.min(1000, rect.width * 0.95);
-          // Only resize if the width actually changed significantly
-          if (Math.abs(currentWidth - newWidth) > 10) {
-            setCanvasSize(false);
-          }
-        }
-      }, 100); // Debounce scroll events
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-    };
   }, []);
 
   // Update drawing context when color or width changes
@@ -166,14 +126,10 @@ export default function HandwrittenMessage() {
       );
     }
     
-    // Use the average pressure of the points for the line width
-    const avgPressure = pointsToDraw.reduce((sum, p) => sum + p.pressure, 0) / pointsToDraw.length;
-    const targetWidth = currentWidth * (0.5 + avgPressure * 0.5);
-    
-    // Smooth width transition
-    const width = lastWidth.current + (targetWidth - lastWidth.current) * 0.3;
+    // Use a consistent line width for smoother, more readable handwriting
+    const width = currentWidth;
     lastWidth.current = width;
-    
+
     ctx.strokeStyle = currentColor;
     ctx.lineWidth = width;
     ctx.lineCap = 'round';
@@ -245,7 +201,6 @@ export default function HandwrittenMessage() {
     const coords = getCanvasCoordinates('touches' in e ? e.touches[0] : e.nativeEvent);
     if (!coords) return;
     
-    // Save the current canvas state before we start drawing
     const ctx = canvasRef.current.getContext('2d');
     if (ctx) {
       canvasStateBeforeDrawing.current = ctx.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -361,16 +316,13 @@ export default function HandwrittenMessage() {
       ctx.fill();
     }
     
-    // Save to history exactly once per drawing session
-    // Use requestAnimationFrame to ensure canvas is fully rendered
+    // Save to history exactly once per drawing session, after stroke is finished
     if (!hasSavedToHistory.current) {
       hasSavedToHistory.current = true;
-      requestAnimationFrame(() => {
-        if (canvasRef.current) {
-          const dataUrl = canvasRef.current.toDataURL();
-          setHistory(prev => [...prev, dataUrl]);
-        }
-      });
+      if (canvasRef.current) {
+        const snapshot = canvasRef.current.toDataURL();
+        setHistory(prev => [...prev, snapshot]);
+      }
     }
     
     // Clean up
@@ -391,15 +343,22 @@ export default function HandwrittenMessage() {
   }, []);
 
   const clearCanvas = () => {
-    if (!ctx || !canvasRef.current) return;
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, canvas.width, canvas.height);
     setHistory([]);
   };
 
   const undoLastStroke = () => {
-    if (!canvasRef.current || !ctx || history.length === 0) return;
+    const canvas = canvasRef.current;
+    if (!canvas || history.length === 0) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
     
     // Remove the last state from history
     const newHistory = [...history];
@@ -407,15 +366,15 @@ export default function HandwrittenMessage() {
     setHistory(newHistory);
     
     // Clear the canvas
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, canvas.width, canvas.height);
     
     // If there's a previous state, restore it
     if (newHistory.length > 0) {
       const img = new Image();
       img.onload = () => {
-        ctx.drawImage(img, 0, 0);
+        context.drawImage(img, 0, 0);
       };
       img.src = newHistory[newHistory.length - 1];
     }
@@ -557,6 +516,23 @@ export default function HandwrittenMessage() {
             }
           }}
         >
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div 
+              className="w-32 h-px bg-gradient-to-r from-transparent via-accent to-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(to right, transparent, var(--accent), transparent)'
+              }}
+            />
+            <div className="relative">
+              <MessageCircle className="w-6 h-6 text-accent" />
+            </div>
+            <div 
+              className="w-32 h-px bg-gradient-to-r from-transparent via-accent to-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(to right, transparent, var(--accent), transparent)'
+              }}
+            />
+          </div>
           <h2 className="text-3xl md:text-4xl font-serif font-medium mb-2 select-none">{t('writeUsMessage')}</h2>
           <p className="text-gray-600 text-center mb-4 select-none">{t('writeUsDescription')}</p>
           <div className="w-20 h-1 bg-accent mx-auto mb-6 select-none"></div>

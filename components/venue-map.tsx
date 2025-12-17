@@ -64,8 +64,9 @@ export default function VenueMap({ embedded = false }: VenueMapProps) {
 
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300 flex items-center justify-center">
               <div className="bg-white/95 backdrop-blur-sm rounded-full px-4 py-3 shadow-lg border border-slate-200 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-3 sm:px-6">
-                <svg className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                <svg className="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
                 <span className="font-semibold text-slate-800 text-sm sm:text-base">
                   {isRTL ? 'عرض على خرائط جوجل' : 'View on Google Maps'}
