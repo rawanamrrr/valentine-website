@@ -18,18 +18,18 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://yazeed-heba.netlify.app"),
+  metadataBase: new URL("https://yazeed-heba.digitivaa.com"),
   title: "Yazeed & Heba - Engagement Celebration",
   description: "Join us in celebrating Yazeed & Heba's engagement",
   generator: "Digitiva",
   openGraph: {
-    url: "https://yazeed-heba.netlify.app/",
+    url: "https://yazeed-heba.digitivaa.com/",
     type: "website",
     title: "Yazeed & Heba - Engagement Celebration",
     description: "Join us in celebrating Yazeed & Heba's engagement",
     images: [
       {
-        url: "https://yazeed-heba.netlify.app/invitation-design.png?v=3",
+        url: "https://yazeed-heba.digitivaa.com/invitation-design.jpg",
         width: 768,
         height: 1365,
         alt: "Yazeed & Heba Engagement Invitation",
@@ -40,11 +40,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Yazeed & Heba - Engagement Celebration",
     description: "Join us in celebrating Yazeed & Heba's engagement",
-    images: ["https://yazeed-heba.netlify.app/invitation-design.png?v=3"],
+    images: ["https://yazeed-heba.digitivaa.com/invitation-design.jpg"],
   },
   icons: {
-    icon: "/invitation-design.png?v=3",
-    apple: "/invitation-design.png?v=3",
+    icon: "/invitation-design.jpg",
+    apple: "/invitation-design.jpg",
   },
 }
 
@@ -57,14 +57,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* ✅ Open Graph tags for Facebook & WhatsApp previews */}
-        <meta property="og:url" content="https://yazeed-heba.netlify.app/" />
+        <meta property="og:url" content="https://yazeed-heba.digitivaa.com/" />
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Yazeed & Heba - Engagement Celebration" />
         <meta property="og:description" content="Join us in celebrating Yazeed & Heba's engagement" />
         <meta
           property="og:image"
-          content="https://yazeed-heba.netlify.app/invitation-design.png?v=3"
+          content="https://yazeed-heba.digitivaa.com/invitation-design.jpg"
         />
 
         <meta property="og:image:width" content="768" />
@@ -76,14 +76,14 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Yazeed & Heba - Engagement Celebration" />
         <meta name="twitter:description" content="Join us in celebrating Yazeed & Heba's engagement" />
-        <meta name="twitter:image" content="https://yazeed-heba.netlify.app/invitation-design.png?v=3" />
+        <meta name="twitter:image" content="https://yazeed-heba.digitivaa.com/invitation-design.jpg" />
 
         {/* Preload PNG with high priority to eliminate lag on Netlify */}
         <link
           rel="preload"
-          href="/invitation-design.png?v=3"
+          href="/invitation-design.jpg"
           as="image"
-          type="image/png"
+          type="image/jpeg"
         />
         {/* Preload video and poster for faster intro */}
         <link
