@@ -17,7 +17,7 @@ export default function VenueMap({ embedded = false }: VenueMapProps) {
   // Static map image from public folder
   const staticMapUrl = "/map-venue.png"
   
-  const googleMapsUrl = "https://www.google.com/maps/place/Taj+Exotica+Resort+%26+Spa,+The+Palm,+Dubai/@25.1240057,55.1519571,17z/data=!3m1!4b1!4m8!3m7!1s0x3e5f152c74b02311:0xa20406b35cb5b846!5m2!4m1!1i2!8m2!3d25.1240009!4d55.1541458"
+  const googleMapsUrl = "https://share.google/1qjTAzyNFBbg3fmR6"
 
   const handleMapClick = () => {
     window.open(googleMapsUrl, '_blank', 'noopener,noreferrer')
@@ -86,10 +86,10 @@ export default function VenueMap({ embedded = false }: VenueMapProps) {
 
       <div className="mt-6 text-center px-4">
         <h3 className="text-xl sm:text-2xl font-serif font-medium text-foreground mb-2">
-          {isRTL ? 'منتجع وسبا تاج إكزوتيكا، نخلة جميرا، دبي' : 'Taj Exotica Resort & Spa, The Palm, Dubai'}
+          {isRTL ? 'منتجع ماريوت نخلة جميرا، دبي' : 'Marriott Resort Palm Jumeirah, Dubai'}
         </h3>
         <p className="text-muted-foreground text-base sm:text-lg mb-3">
-          {isRTL ? 'نخلة جميرا، دبي' : 'The Palm, Dubai'}
+          {isRTL ? 'نخلة جميرا، دبي' : 'Palm Jumeirah, Dubai'}
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">

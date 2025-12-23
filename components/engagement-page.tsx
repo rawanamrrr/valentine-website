@@ -82,8 +82,8 @@ export default function EngagementPage() {
 
             <div className="max-w-2xl mx-auto space-y-6 mt-8">
               <div className="bg-card/50 backdrop-blur-sm border border-accent/20 rounded-2xl p-8 md:p-10 shadow-xl">
-                <p className="text-3xl md:text-4xl font-serif text-accent mb-3">Taj Exotica Resort & Spa, The Palm, Dubai</p>
-                <p className="text-xl md:text-2xl text-muted-foreground mb-6">The Palm, Dubai</p>
+                <p className="text-3xl md:text-4xl font-serif text-accent mb-3">Marriott Resort Palm Jumeirah, Dubai</p>
+                <p className="text-xl md:text-2xl text-muted-foreground mb-6">Palm Jumeirah, Dubai</p>
 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6 pt-6 border-t border-accent/10">
                   <div className="flex items-center gap-3">

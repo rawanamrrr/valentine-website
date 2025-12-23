@@ -95,8 +95,8 @@ export const translations: Translations = {
     ar: '٧:٠٠ مساءً',
   },
   location: {
-    en: 'Taj Exotica Resort & Spa, The Palm, Dubai',
-    ar: 'منتجع وسبا تاج إكزوتيكا، نخلة جميرا، دبي',
+    en: 'Marriott Resort Palm Jumeirah, Dubai',
+    ar: 'منتجع ماريوت نخلة جميرا، دبي',
   },
   rsvpTitle: {
     en: 'Will You Join Us?',

@@ -260,7 +260,7 @@ export default function AnimatedEngagementPage() {
                     </motion.div>
                     <div className="text-left">
                       <p className="text-sm text-muted-foreground">Location</p>
-                      <p className="text-lg font-semibold text-foreground">Taj Exotica Resort & Spa, The Palm, Dubai</p>
+                      <p className="text-lg font-semibold text-foreground">Marriott Resort Palm Jumeirah, Dubai</p>
                     </div>
                   </div>
                 </motion.div>
@@ -425,7 +425,7 @@ export default function AnimatedEngagementPage() {
                       viewport={{ once: true }}
                       transition={{ delay: 0.2 }}
                     >
-                      Taj Exotica Resort & Spa, The Palm, Dubai
+                      Marriott Resort Palm Jumeirah, Dubai
                     </motion.h3>
                     <motion.p
                       className="text-2xl md:text-3xl text-muted-foreground mb-8 font-light"
@@ -434,7 +434,7 @@ export default function AnimatedEngagementPage() {
                       viewport={{ once: true }}
                       transition={{ delay: 0.3 }}
                     >
-                      The Palm, Dubai
+                      Palm Jumeirah, Dubai
                     </motion.p>
 
                     <motion.div
