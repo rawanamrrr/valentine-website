@@ -60,7 +60,7 @@
 
 :root {
   /* Elegant sage and cream palette */
-  --background: #f8f7f2; /* Updated background color */
+  --background: #fff9f9; /* Updated background color to match page */
   --foreground: #704c13; /* Updated warm brown text */
   --card: #f5f3eb;      /* Slightly off-white for cards */
   --card-foreground: #704c13;
@@ -178,5 +178,6 @@
   }
   body {
     @apply bg-background text-foreground font-medium;
+    background-color: #fff9f9;
   }
 }
