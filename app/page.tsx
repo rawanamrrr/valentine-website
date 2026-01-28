@@ -172,6 +172,25 @@ export default function Home() {
     finished: false,
   })
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const imagesSecondRef = useRef<HTMLDivElement | null>(null)
+
+  const imageSources = [
+    "/lock.jpg",
+    "/gift.jpg",
+    "/message.jpg",
+    "/songs.jpg",
+    "/images1.jpg",
+    "/images2.jpg",
+    "/invitation.jpg",
+    "/invitation-message.jpg",
+  ]
+
+  useEffect(() => {
+    imageSources.forEach((src) => {
+      const img = new Image()
+      img.src = src
+    })
+  }, [])
 
   useEffect(() => {
     const targetTime = new Date(2026, 1, 14, 18, 0, 0).getTime()
@@ -318,6 +337,11 @@ export default function Home() {
     setInvitationNoPosition({ top, left })
   }
 
+  const handleScrollToImages2 = () => {
+    if (!imagesSecondRef.current) return
+    imagesSecondRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+
   const handleYesClick = () => {
     if (!isUnlocked) return
     setGiftVideoFinished(false)
@@ -411,11 +435,12 @@ export default function Home() {
                   sessionStorage.removeItem("valentineState")
                 } catch {}
               }}
-              className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 px-4 py-2 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase z-30"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase shadow-md z-30"
             >
-              <span>GO BACK</span>
               <span className="text-base leading-none">↩</span>
+              <span>GO BACK</span>
             </button>
+
             <div className="absolute inset-0 flex flex-col items-center justify-end pb-32">
               <div className="flex gap-6 justify-center">
                 <button
@@ -475,17 +500,18 @@ export default function Home() {
                 setSelectedImage(null)
                 setInvitationNoPosition({ top: 65, left: 50 })
               }}
-              className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 px-4 py-2 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase shadow-md"
             >
-              <span>GO BACK</span>
               <span className="text-base leading-none">↩</span>
+              <span>GO BACK</span>
             </button>
+
             <div className="absolute inset-0 z-10 pointer-events-none">
               <button
                 type="button"
                 aria-label="Open images"
                 className="absolute pointer-events-auto top-[32%] left-[14%] w-[30%] h-[18%]"
-                onClick={() => setSelectedImage("/images.mp4")}
+                onClick={() => setSelectedImage("images-gallery")}
               />
               <button
                 type="button"
@@ -510,8 +536,50 @@ export default function Home() {
             </div>
 
             {selectedImage && (
-              <div className="absolute inset-0 z-20 bg-black/90 flex items-center justify-center">
-                {selectedImage.endsWith(".mp4") ? (
+              <div
+                className={`absolute inset-0 z-20 bg-black/90 ${
+                  selectedImage === "images-gallery"
+                    ? "overflow-y-auto"
+                    : "flex items-center justify-center"
+                }`}
+              >
+                {selectedImage === "images-gallery" ? (
+                  <div className="w-full">
+                    <div className="relative w-full">
+                      <img
+                        src="/images1.jpg"
+                        alt="Images part 1"
+                        className="w-full block"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleScrollToImages2}
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 px-4 py-2 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase z-30 animate-bounce"
+                      >
+                        <span>SCROLL DOWN</span>
+                        <span className="text-base leading-none">↓</span>
+                      </button>
+                    </div>
+                    <div ref={imagesSecondRef} className="relative w-full">
+                      <img
+                        src="/images2.jpg"
+                        alt="Images part 2"
+                        className="w-full block"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedImage(null)
+                          setInvitationNoPosition({ top: 65, left: 50 })
+                        }}
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase shadow-md z-30"
+                      >
+                        <span className="text-base leading-none">↩</span>
+                        <span>GO BACK</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : selectedImage.endsWith(".mp4") ? (
                   <video
                     key={selectedImage}
                     ref={videoRef}
@@ -532,14 +600,34 @@ export default function Home() {
                       alt="Gift detail"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-[30%] left-[25%] w-[50%] h-[28%]">
-                      <ScratchCard
-                        brushRadius={32}
-                        onClick={() => {
-                          window.location.href =
-                            "https://youtu.be/amy2fttDCb8?si=fghZ_wrVJmfYP7uR"
-                        }}
-                      />
+                    <div className="absolute inset-0">
+                      <div className="absolute top-[15%] left-[36%] w-[42%] h-[24%]">
+                        <ScratchCard
+                          brushRadius={32}
+                          onClick={() => {
+                            window.location.href =
+                              "https://youtu.be/amy2fttDCb8?si=fghZ_wrVJmfYP7uR"
+                          }}
+                        />
+                      </div>
+                      <div className="absolute top-[40%] left-[1%] w-[43%] h-[24%]">
+                        <ScratchCard
+                          brushRadius={32}
+                          onClick={() => {
+                            window.location.href =
+                              "https://youtu.be/xVmfxKb_kVY?si=OhTupkocRzVK7dRV"
+                          }}
+                        />
+                      </div>
+                      <div className="absolute top-[40%] right-[1%] w-[43%] h-[24%]">
+                        <ScratchCard
+                          brushRadius={32}
+                          onClick={() => {
+                            window.location.href =
+                              "https://youtu.be/f8GGT9Np0cU?si=6D0PVqFJqU2tvkfF"
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -636,19 +724,21 @@ export default function Home() {
                   </div>
                 )}
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedImage(null)
-                    setInvitationNoPosition({ top: 65, left: 50 })
-                  }}
-                  className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 px-4 py-2 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase z-30 ${
-                    selectedImage === "/invitation-message.jpg" ? "bottom-3" : "bottom-6"
-                  }`}
-                >
-                  <span>GO BACK</span>
-                  <span className="text-base leading-none">↩</span>
-                </button>
+                {selectedImage !== "images-gallery" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedImage(null)
+                      setInvitationNoPosition({ top: 65, left: 50 })
+                    }}
+                    className={`absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[#9b1412] text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase shadow-md z-30 ${
+                      selectedImage === "/invitation-message.jpg" ? "bottom-3" : "bottom-6"
+                    }`}
+                  >
+                    <span className="text-base leading-none">↩</span>
+                    <span>GO BACK</span>
+                  </button>
+                )}
               </div>
             )}
           </div>
