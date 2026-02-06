@@ -176,7 +176,7 @@ export default function Home() {
 
   const imageSources = [
     "/lock.jpg",
-    "/gift.jpg",
+    "/gift.gif",
     "/message.jpg",
     "/songs.jpg",
     "/images1.jpg",
@@ -486,7 +486,7 @@ export default function Home() {
           <div className="relative w-full h-screen">
             {/* Static image background for before/after video */}
             <img
-              src="/gift.jpg"
+              src="/gift.gif"
               alt="Gift"
               className="absolute inset-0 w-full h-full object-cover"
             />
