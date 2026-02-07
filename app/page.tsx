@@ -193,7 +193,7 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const targetTime = new Date(2026, 1, 14, 18, 0, 0).getTime()
+    const targetTime = new Date(2026, 1, 13, 18, 0, 0).getTime()
 
     const updateCountdown = () => {
       const now = Date.now()
